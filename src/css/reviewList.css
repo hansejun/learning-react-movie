@@ -1,0 +1,6 @@
+.reviewListItem {
+  display: flex;
+}
+.reviewListItem-img {
+  width: 200px;
+}

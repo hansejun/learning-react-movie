@@ -1,0 +1,10 @@
+.reviewForm {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+  margin: 10px 0px;
+}
+.reviewForm * {
+  margin-bottom: 10px;
+}
