@@ -1,0 +1,10 @@
+.rating-star {
+  color: gray;
+}
+.selected {
+  color: red;
+}
+
+.rating-input {
+  cursor: pointer;
+}

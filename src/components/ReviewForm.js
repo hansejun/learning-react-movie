@@ -1,25 +1,53 @@
 import { useState } from "react";
-
+import { FileInput } from "./FileInput";
+import { RatingInput } from "./RatingInput";
 export const ReviewForm = () => {
-  const [title, setTitle] = useState("");
-  const [rating, setRating] = useState(0);
-  const [content, setContent] = useState("");
+  const [values, setValues] = useState({
+    title: "",
+    rating: 0,
+    content: "",
+    imgFile: null,
+  });
+  const handleChange = (name, value) => {
+    setValues((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    handleChange(name, value);
+  };
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    console.log(values);
   };
-  const handleRatingChange = (e) => {
-    const newRating = Number(e.target.value) || 0;
-    setRating(newRating);
-  };
-  const handleContentChange = (e) => {
-    setContent(e.target.value);
-  };
+
   return (
-    <form className="reviewForm">
-      <input type="text" value={title} onChange={handleTitleChange} />
-      <input type="number" value={rating} onChange={handleRatingChange} />
-      <textarea value={content} onChange={handleContentChange} />
+    <form className="reviewForm" onSubmit={handleOnSubmit}>
+      <FileInput
+        onChange={handleChange}
+        name="imgFile"
+        value={values.imgFile}
+      />
+      <input
+        name="title"
+        type="text"
+        value={values.title}
+        onChange={handleInputChange}
+      />
+      <RatingInput
+        name="rating"
+        value={values.rating}
+        onChange={handleChange}
+      />
+      <textarea
+        name="content"
+        value={values.content}
+        onChange={handleInputChange}
+      />
+      <button type="submit">제출</button>
     </form>
   );
 };

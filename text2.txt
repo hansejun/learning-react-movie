@@ -70,6 +70,7 @@
 
 ----------------------------------------------------
 [ 조건부 렌더링 ]
+- 리액트의 boolean값을 렌더링하지 않는다는 기능을 활용
 
 1) AND 연산자
 <div>
@@ -89,5 +90,49 @@
 => hide 값이 true 이면 렌더링 하지 않고, false 이면 렌더링 합니다.
 
 
+-----------------------------------------------------------
+[ form에서 useState 다루기 ]
 
+const [values, setValues] = useState({
+    title: "",
+    rating: 0,
+    content: "",
+  });
 
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setValues((current) => ({
+    ...current,
+    [name]: value,
+}));};
+
+-----------------------------------------------------------
+[ 제어 컴포넌트 ]
+- input의 value 값을 리액트에서 지정
+- 리액트에서 사용하는 값과 실제 input 값이 항상 일치
+- 주로 권장되는 방법
+
+[ 비제어 컴포넌트 ]
+- input의 value 값을 지정하지 않는 방법
+- file input에서 사용
+
+-----------------------------------------------------------
+[ useRef ]
+- DOM 노드를 참조할 때 useRef 함수로 Ref 객체를 만들고 이것의 current 프로퍼티를 활용한다.
+- import { useRef } from 'react';
+- const inputRef = useRef();
+
+- 참조할 태그의 ref prop을 생성해 ref 객체를 할당한다.
+- <button ref={inputRef}>버튼</button>
+
+- ref 객체에서 DOM 노드를 참조할 땐 current 값이 있는지 확인해야한다.
+- const inputNode = inputRef.current;
+  if(!inputNode) return;
+
+- 원하는 프로퍼티는 const { width,height } = imgNode; 이런식으로 참조한다.
+
+*  ObjectURL 만들기
+*  const objectURL = URL.createObjectURL(file);
+*
+*  ObjectURL 해제하기
+*  URL.revokeObjectURL(objectURL);
