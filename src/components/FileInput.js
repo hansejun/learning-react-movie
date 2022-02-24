@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 
-export const FileInput = ({ name, value, onChange }) => {
-  const [preview, setPreview] = useState();
+export const FileInput = ({ name, value, onChange, initialPreview = "" }) => {
+  const [preview, setPreview] = useState(initialPreview);
   const inputRef = useRef();
 
   const handleChange = (e) => {
@@ -20,13 +20,19 @@ export const FileInput = ({ name, value, onChange }) => {
     const newPreview = URL.createObjectURL(value);
     setPreview(newPreview);
     return () => {
-      setPreview();
+      setPreview(initialPreview);
       URL.revokeObjectURL(value);
     };
-  }, [value]);
+  }, [value, initialPreview]);
   return (
     <div>
-      {preview && <img src={preview} alt="미리보기 이미지" />}
+      {preview && (
+        <img
+          src={preview}
+          alt="미리보기 이미지"
+          className="reviewListItem-img"
+        />
+      )}
       <input
         type="file"
         accept="image/*"

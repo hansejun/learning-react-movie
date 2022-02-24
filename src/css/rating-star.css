@@ -1,5 +1,6 @@
 .rating-star {
   color: gray;
+  font-size: 25px;
 }
 .selected {
   color: red;

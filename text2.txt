@@ -136,3 +136,16 @@ const handleChange = (e) => {
 *
 *  ObjectURL 해제하기
 *  URL.revokeObjectURL(objectURL);
+
+-----------------------------------------------------------
+[ 글 작성 ]
+- formData 객체를 생성하여 사용한다. 
+
+const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("rating", values.rating);
+    formData.append("content", values.content);
+    formData.append("imgFile", values.imgFile);
+
+- 이것을 fetch 함수의 body에 넣어 POST request를 보낸다.
+

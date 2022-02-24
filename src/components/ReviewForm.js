@@ -1,13 +1,24 @@
 import { useState } from "react";
 import { FileInput } from "./FileInput";
 import { RatingInput } from "./RatingInput";
-export const ReviewForm = () => {
-  const [values, setValues] = useState({
-    title: "",
-    rating: 0,
-    content: "",
-    imgFile: null,
-  });
+
+const INITIAL_VALUES = {
+  title: "",
+  rating: 0,
+  content: "",
+  imgFile: null,
+};
+
+export const ReviewForm = ({
+  initialValues = INITIAL_VALUES,
+  initialPreview = "",
+  onSubmitSuccess,
+  onCancel,
+  onSubmit,
+}) => {
+  const [istSubmitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [values, setValues] = useState(initialValues);
   const handleChange = (name, value) => {
     setValues((current) => ({
       ...current,
@@ -19,9 +30,30 @@ export const ReviewForm = () => {
     handleChange(name, value);
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
+
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("rating", values.rating);
+    formData.append("content", values.content);
+    formData.append("imgFile", values.imgFile);
+
+    let result;
+
+    try {
+      setSubmitting(true);
+      setSubmitError(null);
+      result = await onSubmit(formData);
+    } catch (e) {
+      setSubmitError(e);
+      return;
+    } finally {
+      setSubmitting(false);
+    }
+    const { review } = result;
+    onSubmitSuccess(review);
+    setValues(INITIAL_VALUES);
   };
 
   return (
@@ -30,6 +62,7 @@ export const ReviewForm = () => {
         onChange={handleChange}
         name="imgFile"
         value={values.imgFile}
+        initialPreview={initialPreview}
       />
       <input
         name="title"
@@ -47,7 +80,11 @@ export const ReviewForm = () => {
         value={values.content}
         onChange={handleInputChange}
       />
-      <button type="submit">제출</button>
+      <button type="submit" disabled={istSubmitting}>
+        제출
+      </button>
+      {onCancel && <button onClick={onCancel}>취소</button>}
+      {submitError?.message && <div>{submitError.message}</div>}
     </form>
   );
 };
