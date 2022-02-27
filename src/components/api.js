@@ -38,4 +38,15 @@ export const updateReview = async (id, formData) => {
   return body;
 };
 
+export const deleteReview = async (id) => {
+  const response = await fetch(`${BASE_URL}/film-reviews/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("ㄹㅣ뷰를 삭제하는데 실패하였습니다.");
+  }
+  const body = await response.json();
+  return body;
+};
+
 export default getReviews;

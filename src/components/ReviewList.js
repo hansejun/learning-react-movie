@@ -1,6 +1,7 @@
 import { Rating } from "./Rating";
 import { ReviewForm } from "./ReviewForm";
 import { useState } from "react";
+import useTranslate from "../hooks/useTranslate";
 
 function formatDate(value) {
   const date = new Date(value);
@@ -10,17 +11,20 @@ function formatDate(value) {
 function ReviewListItem({ item, onDelete, onEdit }) {
   const handleDeleteClick = () => onDelete(item.id);
   const handleEditClick = () => onEdit(item.id);
-  console.log(item);
+  const t = useTranslate();
+  //console.log(item);
   return (
     <div className="reviewListItem">
       <img className="reviewListItem-img" src={item.imgUrl} alt={item.title} />
-      <div>
-        <h1>{item.title}</h1>
-        <Rating value={item.rating} />
-        <p>{formatDate(item.createdAt)}</p>
-        <p>{item.content}</p>
-        <button onClick={handleEditClick}>수정</button>
-        <button onClick={handleDeleteClick}>삭제</button>
+      <div className="reviewListItem-content">
+        <h1 className="review-title">{item.title}</h1>
+        <Rating value={item.rating} className="review-stars" />
+        <p className="review-date">{formatDate(item.createdAt)}</p>
+        <p className="review-content">{item.content}</p>
+        <div className="review-buttons">
+          <button onClick={handleEditClick}>{t("edit button")}</button>
+          <button onClick={handleDeleteClick}>{t("delete button")}</button>
+        </div>
       </div>
     </div>
   );
@@ -52,6 +56,7 @@ function ReviewList({ items, onDelete, onUpdate, onUpdateSuccess }) {
                 onCancel={handleCancel}
                 onSubmit={handleSubmit}
                 onSubmitSuccess={handleSubmitSuccess}
+                className="app-form"
               />
             </li>
           );

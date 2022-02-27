@@ -1,0 +1,25 @@
+.app-buttons {
+  width: 1000px;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+.app-buttons button {
+  width: 100px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.black-button {
+  background-color: black;
+  color: white;
+}
+.cancel-button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 0px;
+  border-radius: 5px;
+}

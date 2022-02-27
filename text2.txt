@@ -149,3 +149,46 @@ const formData = new FormData();
 
 - 이것을 fetch 함수의 body에 넣어 POST request를 보낸다.
 
+-----------------------------------------------------------
+[ 리액트 Hook ]
+- use로 시작되는 기능들을 hook이라고 한다.
+- 내가 작성한 코드를 다른 프로그램에서 연결해서 그 값이나 기능을 사용하는 것
+- useState / useEffect / useRef /useCallback 등 
+
+[ Hook의 규칙 ]
+- 반드시 리액트 컨포넌트 함수 안에서 사용해야한다.
+- 컴포넌트 함수의 최상위에서만 사용한다.(반복문,조건문에서 사용불가)
+
+[ useCallback ]
+- 함수를 매번 새로 생성하는 것이 아니라 디펜던시 리스트가 변경될 때마다 함수를 생성 
+
+[ Custom Hook ]
+- 자주 사용하는 hook 코드들을 함수로 만들어 재사용
+- use으로 시작해야한다.
+- hooks 폴더 참조 
+
+-----------------------------------------------------------
+[ Context ]
+- 많은 컴포넌트에서 사용하는 데이터를 반복적인 prop 전달(prop drilling) 없이 공유하는 방법
+
+[ Context 만들기 ]
+- createContext라는 함수를 통해 만들 수 있다.
+- () 안에 기본값을 넣어줄 수도 있다.
+
+- import { createContext } from 'react';
+  const LocaleContext = createContext();
+
+[ Context 적용하기 ]
+- Context를 사용할 때에는 반드시 값을 공유할 범위를 정해야한다.
+- 이때 범위는 Context 객체에 있는 Provider 라는 컴포넌트로 정해줄 수 있다.
+- Provider의 value prop으로 공유할 값을 내려준다.
+
+<LocaleContext.Provider value="en">
+    ... Provider 안의 컴포넌트에서는 LocaleContext 사용가능
+</LocaleContext.Provider>
+
+[ Context 값 사용하기 ]
+- useContext라는 Hook을 통해 사용할 수 있다.
+
+- const locale = useContext(context이름);
+- <p>{locale}</p>

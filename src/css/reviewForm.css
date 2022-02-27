@@ -1,10 +1,78 @@
-.reviewForm {
-  width: 400px;
+.app-formContainer {
+  width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.app-form {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+}
+.app-form__imgFile {
+  background-color: #f1f1f1;
+  height: 300px;
+  border-radius: 5px;
+}
+
+.app-form__input {
   display: flex;
   flex-direction: column;
-  padding: 0px 10px;
-  margin: 10px 0px;
 }
-.reviewForm * {
-  margin-bottom: 10px;
+.app-form__titleRating {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+}
+.app-form__titleRating input {
+  width: 100%;
+  height: 40px;
+  border: none;
+  background-color: #f1f1f1;
+  padding-left: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+.app-form__titleRating .rating-input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.app-form__textarea {
+  margin-top: 20px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  color: rgba(0, 0, 0, 0.3);
+  padding: 15px 0px 0px 15px;
+  font-weight: 600;
+}
+.app-form__textarea:focus {
+  color: black;
+}
+.app-form__titleRating input:focus {
+  color: black;
+}
+
+.app-form__btn {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.app-form__btn button {
+  width: 100px;
+  height: 40px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.app-form__btn button:hover {
+  background-color: red;
 }

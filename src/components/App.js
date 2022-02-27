@@ -1,7 +1,10 @@
 import ReviewList from "./ReviewList";
 import { useState, useEffect } from "react";
-import getReviews, { createReview, updateReview } from "./api";
+import getReviews, { createReview, deleteReview, updateReview } from "./api";
 import ReviewForm from "./ReviewForm";
+import useAsync from "../hooks/useAsync";
+import LocaleSelect from "./LocaleSelect";
+import { LocaleProvider } from "../ contexts/LocaleContext";
 
 const LIMIT = 6;
 
@@ -10,32 +13,25 @@ function App() {
   const [items, setItems] = useState([]);
   const [offset, setOffset] = useState(0);
   const [hasNext, setHasNext] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingError, setLoadingError] = useState(null);
+  const [isLoading, loadingError, getReviewsAsync] = useAsync(getReviews);
   const sortedItems = items.sort((a, b) => b[order] - a[order]);
 
-  const handleRecentlyClick = () => setOrder("createdAt");
+  const handleRecentlyClick = () => {
+    setOrder("createdAt");
+  };
 
   const handleBestClick = () => setOrder("rating");
 
-  const handleDelete = (id) => {
-    const newItems = items.filter((item) => item.id !== id);
-    setItems(newItems);
+  const handleDelete = async (id) => {
+    const result = await deleteReview(id);
+    if (!result) return;
+    setItems((current) => current.filter((item) => item.id !== id));
   };
 
   const handleLoad = async (options) => {
-    let result;
-    try {
-      setIsLoading(true);
-      setLoadingError(null);
-      result = await getReviews(options);
-    } catch (e) {
-      setLoadingError(e);
-      console.log(e);
-      return;
-    } finally {
-      setIsLoading(false);
-    }
+    let result = await getReviewsAsync(options);
+    if (!result) return;
+
     const { reviews, paging } = result;
     if (options.offset === 0) {
       setItems(reviews);
@@ -70,28 +66,74 @@ function App() {
   }, [order]);
 
   return (
-    <div>
-      <div>
-        <button onClick={handleRecentlyClick}>최신순</button>
-        <button onClick={handleBestClick}>평점순</button>
+    <LocaleProvider defaultValue="ko">
+      <div className="app-main">
+        <header className="app-header">
+          <div className="app-header__title">
+            <span>MOVIE</span>
+            <span>MORE</span>
+          </div>
+          <div>
+            <LocaleSelect className="app-header__selector" />
+          </div>
+        </header>
+        <div className="app-formContainer">
+          <ReviewForm
+            onSubmit={createReview}
+            onSubmitSuccess={handleCreateSuccess}
+            className="app-form"
+          />
+        </div>
+
+        <div className="app-buttons">
+          {order === "createdAt" ? (
+            <button
+              onClick={handleRecentlyClick}
+              className="app-buttons__recently black-button"
+            >
+              최신순
+            </button>
+          ) : (
+            <button
+              onClick={handleRecentlyClick}
+              className="app-buttons__recently"
+            >
+              최신순
+            </button>
+          )}
+
+          {order === "rating" ? (
+            <button
+              onClick={handleBestClick}
+              className="app-buttons__best black-button"
+            >
+              평점순
+            </button>
+          ) : (
+            <button onClick={handleBestClick} className="app-buttons__best">
+              평점순
+            </button>
+          )}
+        </div>
+        <div className="app-content">
+          <ReviewList
+            items={sortedItems}
+            onDelete={handleDelete}
+            onUpdate={updateReview}
+            onUpdateSuccess={handleUpdateSuccess}
+          />
+          {hasNext && (
+            <div className="app-content__more">
+              <button disabled={isLoading} onClick={handleLoadMore}>
+                더보기
+              </button>
+            </div>
+          )}
+        </div>
+
+        {loadingError?.message && <span>{loadingError.message}</span>}
       </div>
-      <ReviewForm
-        onSubmit={createReview}
-        onSubmitSuccess={handleCreateSuccess}
-      />
-      <ReviewList
-        items={sortedItems}
-        onDelete={handleDelete}
-        onUpdate={updateReview}
-        onUpdateSuccess={handleUpdateSuccess}
-      />
-      {hasNext && (
-        <button disabled={isLoading} onClick={handleLoadMore}>
-          더보기
-        </button>
-      )}
-      {loadingError?.message && <span>{loadingError.message}</span>}
-    </div>
+    </LocaleProvider>
   );
 }
 export default App;

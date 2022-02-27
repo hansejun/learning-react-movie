@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 const RATING = [1, 2, 3, 4, 5];
 
 const Star = ({ selected = false, rating, onSelect, onHover }) => {
@@ -10,7 +12,7 @@ const Star = ({ selected = false, rating, onSelect, onHover }) => {
       onClick={handleClick}
       onMouseOver={handleMouseOver}
     >
-      *
+      <FontAwesomeIcon icon={faStar} />
     </span>
   );
 };

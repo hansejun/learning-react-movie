@@ -1,4 +1,6 @@
 import { useRef, useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 export const FileInput = ({ name, value, onChange, initialPreview = "" }) => {
   const [preview, setPreview] = useState(initialPreview);
@@ -25,19 +27,30 @@ export const FileInput = ({ name, value, onChange, initialPreview = "" }) => {
     };
   }, [value, initialPreview]);
   return (
-    <div>
+    <div className="reviewListItem-fileImg">
       {preview && (
         <img
           src={preview}
           alt="미리보기 이미지"
           className="reviewListItem-img"
+          width="200px"
+          height="100%"
         />
       )}
+      <label className="reviewListItem-fileBtn" for="input-file">
+        {preview ? (
+          <FontAwesomeIcon icon={faImage} className="none" />
+        ) : (
+          <FontAwesomeIcon icon={faImage} className="fileBtn-img" />
+        )}
+      </label>
       <input
         type="file"
         accept="image/*"
         onChange={handleChange}
         ref={inputRef}
+        id="input-file"
+        style={{ display: "none" }}
       />
       {value && <button onClick={handleFileClear}>X</button>}
     </div>

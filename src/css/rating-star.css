@@ -3,9 +3,17 @@
   font-size: 25px;
 }
 .selected {
-  color: red;
+  color: rgb(255, 211, 17);
 }
 
 .rating-input {
   cursor: pointer;
+}
+
+.review-stars .rating-star {
+  color: gray;
+  font-size: 15px;
+}
+.review-stars .selected {
+  color: rgb(255, 211, 17);
 }
