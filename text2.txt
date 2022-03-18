@@ -192,3 +192,18 @@ const formData = new FormData();
 
 - const locale = useContext(context이름);
 - <p>{locale}</p>
+
+-----------------------------------------------------------
+[ gh-pages를 통해 publishing ]
+- gh-pages는 github pages에 업로드 하게 해주는 패키지이다.
+- npm i gh-pages
+
+1) package.json에 아래와 같은 코드 추가
+  - "Homepage":"https://[깃허브 username].github.io/[repository 이름]"
+  - repository 이름은 git remote -v를 통해 확인가능 
+
+2) script에 명령어 추가 
+  - "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
+  - npm run deploy를 실행하면 predeploy가 자동으로 실행되고 deploy가 실행된다.
+  - deploy의 역할은 build 폴더를 Hompage 주소의 웹사이트에 업로드 하는 것이다.
